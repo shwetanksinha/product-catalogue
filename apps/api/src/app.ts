@@ -43,10 +43,15 @@ export async function buildApp(
 
   // Handlers must be set before routes are registered: plugin contexts inherit them at registration.
   app.setNotFoundHandler((req, reply) => {
-    reply.code(404).send(errorBody('NOT_FOUND', `Route ${req.method} ${req.url} not found`));
+    reply
+      .code(404)
+      .header('cache-control', 'no-store')
+      .send(errorBody('NOT_FOUND', `Route ${req.method} ${req.url} not found`));
   });
 
   app.setErrorHandler((error, req, reply) => {
+    // Routes may have marked the reply cacheable before failing; errors must never be cached by browsers/CDNs.
+    reply.header('cache-control', 'no-store');
     if (error instanceof ValidationError) {
       return reply.code(error.statusCode).send(errorBody(error.code, error.message, error.fields));
     }

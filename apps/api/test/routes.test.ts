@@ -92,7 +92,16 @@ describe('catalogue routes', () => {
     expect(res.json()).toEqual({
       error: { code: 'UPSTREAM_UNAVAILABLE', message: 'Product source is unreachable' },
     });
+    // A transient upstream failure must not be cached by browsers or CDNs.
+    expect(res.headers['cache-control']).toBe('no-store');
     await brokenApp.close();
+  });
+
+  it('marks successful catalogue responses cacheable but not-found errors as no-store', async () => {
+    const ok = await app.inject('/api/products/1');
+    expect(ok.headers['cache-control']).toBe('public, max-age=60');
+    const missing = await app.inject('/api/products/999');
+    expect(missing.headers['cache-control']).toBe('no-store');
   });
 
   it('returns 404 envelope for unknown routes', async () => {
