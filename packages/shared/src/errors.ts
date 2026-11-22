@@ -1,9 +1,5 @@
 export type ApiErrorCode =
-  | 'VALIDATION_ERROR'
-  | 'NOT_FOUND'
-  | 'UPSTREAM_UNAVAILABLE'
-  | 'EMAIL_DELIVERY_FAILED'
-  | 'INTERNAL_ERROR';
+  'VALIDATION_ERROR' | 'NOT_FOUND' | 'UPSTREAM_UNAVAILABLE' | 'EMAIL_DELIVERY_FAILED' | 'INTERNAL_ERROR';
 
 /** Every non-2xx API response uses this envelope. */
 export interface ApiErrorBody {

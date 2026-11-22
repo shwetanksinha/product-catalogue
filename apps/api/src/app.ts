@@ -18,12 +18,19 @@ export interface BuildAppOptions {
   trustProxy?: boolean;
 }
 
-function errorBody(code: ApiErrorBody['error']['code'], message: string, fields?: Record<string, string>): ApiErrorBody {
+function errorBody(
+  code: ApiErrorBody['error']['code'],
+  message: string,
+  fields?: Record<string, string>,
+): ApiErrorBody {
   return { error: { code, message, ...(fields ? { fields } : {}) } };
 }
 
 /** Builds the HTTP app from already-constructed services, so tests can inject fakes. */
-export async function buildApp(services: AppServices, options: BuildAppOptions = {}): Promise<FastifyInstance> {
+export async function buildApp(
+  services: AppServices,
+  options: BuildAppOptions = {},
+): Promise<FastifyInstance> {
   const app = Fastify({
     ...(options.logger ? { loggerInstance: options.logger } : { logger: false }),
     trustProxy: options.trustProxy ?? false,

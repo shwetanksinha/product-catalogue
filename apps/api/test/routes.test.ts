@@ -62,7 +62,11 @@ describe('catalogue routes', () => {
     const res = await app.inject('/api/search?q=%20');
     expect(res.statusCode).toBe(400);
     expect(res.json()).toEqual({
-      error: { code: 'VALIDATION_ERROR', message: 'Enter a search term', fields: { q: 'Enter a search term' } },
+      error: {
+        code: 'VALIDATION_ERROR',
+        message: 'Enter a search term',
+        fields: { q: 'Enter a search term' },
+      },
     });
   });
 
