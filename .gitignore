@@ -9,3 +9,6 @@ coverage/
 .vscode/*
 !.vscode/extensions.json
 *.tsbuildinfo
+# Machine-specific Docker overrides (e.g. corporate proxy CA certificates)
+docker-compose.override.yml
+certs/

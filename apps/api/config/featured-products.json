@@ -1,0 +1,4 @@
+{
+  "$comment": "Owner-curated 'top rated' products shown on the home page, in display order. Category pages list curated products in that category first.",
+  "productIds": ["12", "3", "18", "5", "11"]
+}
