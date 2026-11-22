@@ -36,6 +36,20 @@ change `WEB_PORT` (and `PUBLIC_WEB_URL` to match), `MAILPIT_UI_PORT` or `MAILPIT
 
 Stop with `Ctrl+C`, then `docker compose down`.
 
+**Behind a corporate TLS-inspecting proxy** (Zscaler, Netskope and similar)? If the shop shows "Product source is
+unreachable" and the API logs `unable to get local issuer certificate`, the container doesn't trust your proxy's
+root certificate. Export that root certificate as PEM to `certs/corporate-ca.pem`, then create
+`docker-compose.override.yml`. Compose loads it automatically, and both files are git-ignored:
+
+```yaml
+services:
+  api:
+    environment:
+      NODE_EXTRA_CA_CERTS: /certs/corporate-ca.pem
+    volumes:
+      - ./certs:/certs:ro
+```
+
 ### Try the acceptance criteria
 
 | Criterion     | How to check it                                                                                                                                     |
